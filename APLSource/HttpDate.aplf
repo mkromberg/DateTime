@@ -1,0 +1,21 @@
+ r←{minOffset}HttpDate ts;utcOffset;sign;day;mon;ver;⎕USING;t
+    ⍝ return RCF 1123/822 compliant date
+    ⍝ minOffset is option number of minutes to offset time with (used for HTTP caching expirations)
+ minOffset←{0::0 ⋄ minOffset}''
+ ts←6↑ts
+ :If 0=⎕NC'_UtcOffset'
+     :If 'Win'≡ver←3↑1⊃'.'⎕WG'APLVersion'
+         ⎕USING←,⊂''
+         _UtcOffset←':'~⍨¯2↓⍕System.TimeZone.CurrentTimeZone.GetUtcOffset ⎕NEW System.DateTime(ts)
+     :Else
+         :If (⊂ver)∊'Lin' 'AIX' 'Sol'
+             _UtcOffset←⊃¯1↑({1↓¨{(⍵=⊃⍵)⊂⍵}' ',⍵}⊃⎕SH'date -R')~⊂''
+         :Else
+             _UtcOffset←'GMT'
+         :EndIf
+     :EndIf
+ :EndIf
+ ts←IDNToDate(minOffset÷24×60)+t←DateToIDN ts
+ day←(7 3⍴'MonTueWedThuFriSatSun')[1+7|(⌊t)-1;]
+ mon←(12 3⍴'JanFebMarAprMayJunJulAugSepOctNovDec')[2⊃ts;]
+ r←,('<',day,', >,ZI2,< ',mon,' >,ZI4,< >,ZI2,<:>,ZI2,<:>,ZI2,< ',_UtcOffset,'>')⎕FMT 1 5⍴ts[3 1 4 5 6]

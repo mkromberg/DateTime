@@ -1,0 +1,5 @@
+ SM←DateToIDN TS                  ⍝ Convert date format
+ SM←2 ⎕NQ'.' 'DateToIDN'(3↑TS)
+ :If 3<⍴TS
+     SM+←(24 60 60 1000⊥4↑3↓TS)÷86400000
+ :EndIf

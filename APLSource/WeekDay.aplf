@@ -1,0 +1,3 @@
+ r←WeekDay Date
+    ⍝ Return weekday (Monday=1, Sunday=7)
+ r←1+7|(DateToIDN 3↑Date)-1

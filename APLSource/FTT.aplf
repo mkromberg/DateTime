@@ -1,0 +1,12 @@
+ ts←FTT fts;md;shape;tmp;yr;z;⎕IO
+     ⍝ *** convert ⎕FRDCI/⎕FHIST timestamp(s) to ⎕ts-format for Dyalog/W ***
+     ⍝ right argument: ⎕FRDCI-type timestamp(s) of any shape
+     ⍝ result: ⎕ts-type timestamp(s) with shape <(⍴argument),7>
+ ⎕IO←0 ⋄ shape←⍴fts ⋄ ts←,fts+18626112000
+ md←365.2501|1+1461|yr←⌊ts÷5184000
+ tmp←31 61 92 122 153 184 214 245 275 306 337 366
+ z←(,⍉<⍀tmp∘.≥md)/,((⍴md),12)⍴⍳12
+ md←(1+12|z+2),[0.1]⌈md-(0,tmp)[z]
+ ts←(1960+⌊(yr+60)÷365.25),md,⍉24 60 60 60⊤ts
+ ts[;6]←⌊0.5+ts[;6]×100÷6
+ ts←(shape,7)⍴ts

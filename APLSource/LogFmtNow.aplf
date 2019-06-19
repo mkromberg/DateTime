@@ -1,0 +1,9 @@
+ r←LogFmtNow;ver
+    ⍝ returns now UTC adjusted, and formatted for log files (Common Log Format)
+ :If 'Win'≡ver←3↑1⊃'.'⎕WG'APLVersion'
+     r←((⍎⎕NA'kernel32|GetSystemTime >{U2 U2 U2 U2 U2 U2 U2 U2}')⊂8⍴0)[4 2 1 5 6 7]
+     r[2]←⊂(12 3⍴'JanFebMarAprMayJunJulAugSepOctNovDec')[,2⊃r;]
+     r←,'< [>,ZI2,</>,3A1,</>,ZI4,<:>,ZI2,<:>,ZI2,<:>,ZI2,< +0000] >'⎕FMT r
+ :Else
+     r←1⊃⎕SH'date +" [%d/%b/%Y:%T %z] "'
+ :EndIf

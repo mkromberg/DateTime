@@ -1,0 +1,8 @@
+ r←TTF ts;l;h;d;m;y
+       ⍝ convert a ⎕TS style timestamp into 60ths of a second since 1st January 1970 a la ⎕FRDCI
+ l←⌈60×ts[7]÷1000                                         ⍝ convert milliseconds to 60ths
+ h←3600 60 60⊥ts[4 5 6]                                   ⍝ hours minutes seconds to to the nearest seconds total
+ d←ts[3]-1                                                ⍝ days since start of month
+ m←(2⊃ts)⊃++\0 31,(28+0=4|⊃ts),31 30 31 30 31 31 30 31 30 ⍝ days in completed months
+ y←{{(365×⍵)+⌈4÷⍨⍵-2}⍵-1970}⊃ts                           ⍝ days in years since 1970, leap years since 1972
+ r←l+60×h+86400×y+m+d                                     ⍝ sum, convert to seconds, add seconds in the day convert to 60ths, add on 60ths

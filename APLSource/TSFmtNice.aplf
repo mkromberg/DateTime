@@ -1,0 +1,19 @@
+ r←TSFmtNice ts;now;yday;today;z;i;m;idn;s
+    ⍝ Format a vector of IDN's nicely
+ s←⍴ts
+ yday←¯1+today←⌊now←DateToIDN ⎕TS
+ r←↑IDNToDate¨,ts←,ts ⍝ Make matrix
+ r←'ZI4,<->,ZI2,<->,ZI2,< >,ZI2,<:>,ZI2'⎕FMT 5↑[2]r
+ :If 0≠⍴i←((ts≥yday)∧~m←ts≥today)/⍳⍴ts
+     r[i;]←r[i;11+⍳5],' ',((⍴i),10)⍴10↑'Yesterday'
+ :EndIf
+ :If 0≠⍴i←m/⍳⍴ts
+     r[i;]←r[i;11+⍳5],' ',((⍴i),10)⍴10↑'Today'
+ :EndIf
+ :If 0≠⍴i←(100>z←⌊(now-ts)×24×60)/⍳⍴ts
+     r[i;]←16↑[2]↑(⍕¨⌊z[i]),¨(' minutes ago' ' minute ago')[1+1=z[i]]
+ :EndIf
+ :If 0≠⍴i←(z<1)/⍳⍴ts
+     r[i;]←((⍴i),16)⍴16↑'Now'
+ :EndIf
+ r←(s,¯1↑⍴r)⍴r

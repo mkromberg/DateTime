@@ -1,0 +1,3 @@
+ new←ts IdnAdd t
+    ⍝ T is D HH MM SS
+ new←ts+(0 24 60 60 1000⊥¯5↑t,0)÷86400000
